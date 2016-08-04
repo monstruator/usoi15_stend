@@ -855,6 +855,8 @@ int HandlerCmd11mo3a( int param0, int param1 )
    if( ! ( n % 2 ) ) {
       p56->data[3] |= 0x80;
    } 
+   printf("\nR999 : ");
+   for (i=0;i<4;i++) printf("%02x",p56->data[i]);printf("\n");
    outpack5.buf[i].size = sizeof(struct header56) + 4;
    outpack5.buf[i].cmd = BUF3KIT_CMD_BLK5;
    outpack5.nsave++;
@@ -9259,38 +9261,7 @@ int HandlerCmd115mo3a( int param0, int param1, int param2 )
 
 //	printf("SMS out:");	for(j=0;j<100;j++) printf("%02x ",outpack6.buf[i].data[j+20]);printf("\n");
 //	printf("SMS out:");	for(j=0;j<80;j++) printf("%c ",inpack0.sms[j]);printf("\n");
-//------------------
-/*  
-    memcpy(&outpack0.r999_sms.sms[0],(char *)&inpack0.sms[0], 80 );
-				
-				f27 = (struct sac *)b;
-				memset( f27, 0, sizeof(struct sac) );
-				f27->ps = 1;
-				f27->vr = 0;
-				f27->kvi = 15;
-				f27->nf = 27;
-				f27->r0 = ( ( ( count.out6 / 10000 ) % 1000 ) % 100 ) % 10;
-				f27->r1 = ( ( ( count.out6 / 10000 ) % 1000 ) % 100 ) / 10;
-				f27->r2 = ( ( count.out6 / 10000 ) % 1000 ) / 100;
-				f27->r3 = ( count.out6 / 10000 ) / 1000;
-				f27->v0 = f27->v1 = f27->v2 = f27->v3 = 0;
-				f27->a0 = f18->p0;
-				f27->a1 = f18->p1;
-				f27->a2 = f18->p2;
-				f27->a3 = f18->p3;
-				f27->a4 = f18->p4;
-				f27->a5 = f18->p5;
-				f27->p0 = f18->a0;
-				f27->p1 = f18->a1;
-				f27->p2 = f18->a2;
-				f27->p3 = f18->a3;
-				f27->p4 = f18->a4;
-				f27->p5 = f18->a5;
-		printf("\nSACH:");
-	  for(j=0;j<6;j++)  {outpack0.r999_sms.sach18[j]=b[j];printf("%04x ",b[j]);}printf("\n");
-      outpack0.r999.cr++;
-*/
-//------------------
+
    outpack6.buf[i].size = sizeof(struct header56) + 5 + sizeof(struct sac) +
       sizeof(short) + 80;
    outpack6.buf[i].cmd = BUF3KIT_CMD_BLK6;

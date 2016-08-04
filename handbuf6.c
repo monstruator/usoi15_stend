@@ -182,18 +182,19 @@ int HandlerInPack6( const void *buf, unsigned len )
 		mode.p2 = s->a2;		mode.p3 = s->a3;
 		mode.p4 = s->a4;		mode.p5 = s->a5;
 		
-      if( ( sa != mode.addr3 ) || !mode.recv3 ) { if( verbose > 0 ) printf( "R999: Ignore packet.\n" );  break;  }
+      //if( ( sa != mode.addr3 ) || !mode.recv3 ) { if( verbose > 0 ) printf( "R999: Ignore packet.\n" );  break;  }
       if( s->nf == 18 ) {
          if( s->kvi == 10 ) {
-            memcpy( &outpack0.r999_cu2.sach18, s, sizeof(short) );
+            memcpy( &outpack0.r999_cu2.sach18, s, sizeof(struct sac) );
             if( sn > 3 ) sn = 3;
             outpack0.r999_cu2.nform = sn;
-			printf("nform=%d to Danya\n",sn);
+			
             for( i = 0; i < sn; i++ ) {
                memcpy( &outpack0.r999_cu2.form[i], (char *)s + 
                   sizeof(struct sac) + sizeof(short) + 
                   sizeof(struct formrls) * i, sizeof(struct formrls) );
             }
+			printf("nform=%d num_out=%d to Danya\n",sn,outpack0.r999_cu2.form[0].num_out);
             outpack0.r999.cr++;
 			if( !mode.mo1a && mode.mn1 ) outpack0.link = KRK_DATA_AND_TRANS;
 			else
@@ -221,7 +222,7 @@ int HandlerInPack6( const void *buf, unsigned len )
 				f27->p3 = s->a3;
 				f27->p4 = s->a4;
 				f27->p5 = s->a5;
-				//WriteC2( f27, sizeof(struct sac) );
+				WriteC2( f27, sizeof(struct sac) );
 				count.out6++;
 			}
          }
@@ -239,7 +240,7 @@ int HandlerInPack6( const void *buf, unsigned len )
 				for(j1=0;j1<16;j1++) outpack0.r999_sms.sms[j1+j*16]=out_aes[j1];		
 			}
 
-			for(j=0;j<80;j++) printf("%02x ",outpack0.r999_sms.sms[j]);printf("\n");
+			//for(j=0;j<80;j++) printf("%02x ",outpack0.r999_sms.sms[j]);printf("\n");
 			//for(j=0;j<6;j++) printf("%04x ",outpack0.r999_sms.sach18[j]);printf("\n");
 
             outpack0.r999.cr++;
@@ -313,7 +314,7 @@ int HandlerInPack6( const void *buf, unsigned len )
 			f27->p3 = s->a3;
 			f27->p4 = s->a4;
 			f27->p5 = s->a5;
-			//WriteC2( f27, sizeof(struct sac) );
+			WriteC2( f27, sizeof(struct sac) );
 			count.out6++;
 		}
       }
@@ -350,7 +351,7 @@ int HandlerInPack6( const void *buf, unsigned len )
          f199->s.p3 = s->a3;
          f199->s.p4 = s->a4;
          f199->s.p5 = s->a5;
-         //WriteC2( f199, sizeof(struct form199_dmv) );
+         WriteC2( f199, sizeof(struct form199_dmv) );
          count.out6++;
       }
       if( s->nf == 199 ) {
@@ -396,7 +397,7 @@ int HandlerInPack6( const void *buf, unsigned len )
          f199->t1 = 0x00;
          f199->t2 = 0x1d;
          f199->kfs = 34;
-         //WriteC2( f199, sizeof(struct form199_dmv) );
+         WriteC2( f199, sizeof(struct form199_dmv) );
          count.out6++;
       }
       break;
