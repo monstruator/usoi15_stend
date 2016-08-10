@@ -845,8 +845,8 @@ int HandlerCmd11mo3a( int param0, int param1 )
    p56 = (struct packet56 *)outpack5.buf[i].data;
    p56->head.code = 0x40;
    p56->data[0] = 0x1f;
-   p56->data[1] = ( param1 % 10 ) & 0x0f;
-   p56->data[1] |= ( param1 / 10 ) << 4;;
+   p56->data[1] = ( param0 % 10 ) & 0x0f;
+   p56->data[1] |= ( param0 / 10 ) << 4;;
    p56->data[2] = ( param1 - 1 ) & 0x03;
    p56->data[2] |= 0x30;
    p56->data[3] = 0x22;
@@ -857,6 +857,7 @@ int HandlerCmd11mo3a( int param0, int param1 )
    } 
    printf("\nR999 : ");
    for (i=0;i<4;i++) printf("%02x",p56->data[i]);printf("\n");
+   
    outpack5.buf[i].size = sizeof(struct header56) + 4;
    outpack5.buf[i].cmd = BUF3KIT_CMD_BLK5;
    outpack5.nsave++;
@@ -9150,7 +9151,7 @@ int HandlerCmd104mo3a( int param0, int param1, int param2 )
       outpack6.nsave++;
       
 
-		//stat.link |= FLAG_BUF6;
+		stat.link |= FLAG_BUF6;
 		stat.out |= FLAG_BUF6;
 		ControlLed4( 1 );
 
