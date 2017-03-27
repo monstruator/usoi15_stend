@@ -211,6 +211,7 @@
       float course;
       float speed;
       float div_course;
+	  short chksum;
    };
 
    struct packcmd {
